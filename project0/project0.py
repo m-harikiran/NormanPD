@@ -53,7 +53,7 @@ def extractincidents(incident_data):
     
     return pdfDataList
 
-#Creating a dababase 
+#Connecting to a Dababase and creating a table
 def createdb():
     
     dbName = 'normanpd.db' #Name of the database where the data should be inserted
@@ -77,7 +77,7 @@ def createdb():
 
     return dbName
 
-#Inserting data in the database
+#Inserting data in the Database
 def populatedb(dbName, incidents):
 
     #All the files will be saved in normanpd.db
@@ -90,5 +90,25 @@ def populatedb(dbName, incidents):
     cur.executemany('''INSERT INTO incidents VALUES(?,?,?,?,?)''', incidents)
 
     conn.commit() #To save changes in db
+
+    conn.close() #Closing the connection to db
+
+#Fetching results from Database
+def status(dbName):
+
+    #All the files will be saved in normanpd.db
+    conn = sqlite3.connect(dbName)
+
+    #Creating a cursor object to execute SQL commands
+    cur = conn.cursor()
+
+    #Selecting and Concatenating the results from DB
+    cur.execute('''SELECT nature || ' | ' || count(*) from incidents 
+                          GROUP BY nature 
+                          ORDER BY nature''')
+
+    #Printing all the records fetched from DB as per criteria
+    for i in cur.fetchall():
+      print(i[0])
 
     conn.close() #Closing the connection to db
