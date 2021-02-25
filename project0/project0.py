@@ -52,3 +52,27 @@ def extractincidents(incident_data):
         pdfDataList.append(l)
     
     return pdfDataList
+
+#Creating a dababase 
+def createdb():
+    
+    dbName = 'normanpd.db' #Name of the database where the data should be inserted
+    
+    #All the files will be saved in normanpd.db
+    conn = sqlite3.connect(dbName)
+
+    #Creating a cursor object to execute SQL commands
+    cur = conn.cursor()
+
+    #Dropping the table if it exists
+    cur.execute('''DROP TABLE IF EXISTS incidents''')
+
+    #Creating table
+    cur.execute('''CREATE TABLE IF NOT EXISTS incidents 
+                      (incident_time TEXT, incident_number TEXT, incident_location TEXT, nature TEXT, incident_ori TEXT)''')
+    
+    conn.commit() #To save changes in db
+
+    conn.close() #Closing the connection to db
+
+    return dbName
