@@ -1,4 +1,5 @@
 import argparse
+import validators
 
 import project0
 
@@ -26,4 +27,8 @@ if __name__ == '__main__':
      
     args = parser.parse_args()    #Parsing the arguments to check if the condition if conditions is not met this will throw an error
     
-    main(args.incidents)          #Calling the main function
+    #Validating URL
+    if validators.url(args.incidents):
+        main(args.incidents)          #Calling the main function
+    else:
+        print('*****INVALID URL***** \nPlease enter correct url and run program again.')
