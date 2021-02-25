@@ -45,7 +45,7 @@ def extractincidents(incident_data):
     for i in range(1, len(pdfData)-1):
         l = pdfData[i].split('\n')
         
-        #Checking and removing unwanted cells
+        #Checking and removing unwanted cells ('Title of PDF file')
         while len(l) > 5:
             l.pop()
         
