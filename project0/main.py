@@ -20,10 +20,10 @@ def main(url):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser()    #Creating an argument parser object
     parser.add_argument("--incidents", type=str, required=True, 
-                         help="Incident summary url.")
+                         help="Incident summary url.")          #Adding optinal argument --incidents
      
-    args = parser.parse_args()
-    if args.incidents:
-        main(args.incidents)
+    args = parser.parse_args()    #Parsing the arguments to check if the condition if conditions is not met this will throw an error
+    
+    main(args.incidents)          #Calling the main function
