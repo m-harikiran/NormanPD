@@ -1,8 +1,4 @@
-argparse==1.4.0
 PyPDF2==1.26.0
 pytest==6.2.2
-regex==2020.6.8
-requests==2.24.0
-urllib3==1.25.9
 validators==0.18.2
-#tempfile, sqlite3, re and urllib are standard libraries in python3
+#argparse, tempfile, sqlite3, re and urllib are standard libraries in python3
