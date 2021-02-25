@@ -1,0 +1,4 @@
+1. https://docs.python.org/3.8/library/sqlite3.html#sqlite3.Cursor.fetchall | Helped me to understand sqlite3 package and methods used to create,connect and query database
+2. https://docs.python.org/3/library/re.html | Helped me to understand Regular expressions
+3. https://regexr.com | Used to test pattern matching for regular expressions
+4. https://stackoverflow.com/questions/51395590/regex-pattern-to-match-datetime-in-python | Helped me to understand and split data using regular expressions for datetime
