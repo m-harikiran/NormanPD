@@ -5,7 +5,6 @@ import sqlite3
 import re
 
 #Downloading Data
-
 def fetchincidents(url):
     headers = {}
     headers['User-Agent'] = "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17"                          
@@ -13,6 +12,7 @@ def fetchincidents(url):
 
     return data
 
+#Extracting the data from downloaded file
 def extractincidents(incident_data):
     
     #Creating a temporary file to store the data
@@ -44,11 +44,11 @@ def extractincidents(incident_data):
     
     for i in range(1, len(pdfData)-1):
         l = pdfData[i].split('\n')
-
-        if len(l) > 5:
+        
+        #Checking and removing unwanted cells
+        while len(l) > 5:
             l.pop()
         
         pdfDataList.append(l)
     
     return pdfDataList
-
