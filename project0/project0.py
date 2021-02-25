@@ -76,3 +76,19 @@ def createdb():
     conn.close() #Closing the connection to db
 
     return dbName
+
+#Inserting data in the database
+def populatedb(dbName, incidents):
+
+    #All the files will be saved in normanpd.db
+    conn = sqlite3.connect(dbName)
+
+    #Creating a cursor object to execute SQL commands
+    cur = conn.cursor()
+
+    #Inserting the records into database
+    cur.executemany('''INSERT INTO incidents VALUES(?,?,?,?,?)''', incidents)
+
+    conn.commit() #To save changes in db
+
+    conn.close() #Closing the connection to db
