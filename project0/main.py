@@ -13,7 +13,7 @@ def main(url):
     dbName = project0.createdb()
 	
     # Insert data into incidents table
-    project0.populatedb(db, incidents)
+    project0.populatedb(dbName, incidents)
 	
     # Print incident counts grouped by nature of incident
     project0.status(dbName)
@@ -25,5 +25,5 @@ if __name__ == '__main__':
                          help="Incident summary url.")
      
     args = parser.parse_args()
-    if args.arrests:
-        main(args.arrests)
+    if args.incidents:
+        main(args.incidents)

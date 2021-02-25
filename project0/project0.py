@@ -1,4 +1,4 @@
-import urllib
+import urllib.request
 import tempfile
 import PyPDF2
 import sqlite3
