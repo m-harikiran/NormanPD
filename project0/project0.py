@@ -4,111 +4,130 @@ import PyPDF2
 import sqlite3
 import re
 
-#Downloading Data
-def fetchincidents(url):
+# Downloading Data
+
+
+def fetchIncidents(url):
     headers = {}
-    headers['User-Agent'] = "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17"                          
-    data = urllib.request.urlopen(urllib.request.Request(url, headers=headers))
+    headers['User-Agent'] = "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17"
 
-    return data
+    # HTTP request error handling
+    try:
+        data = urllib.request.urlopen(
+            urllib.request.Request(url, headers=headers))
+        return data
+    except urllib.error.HTTPError as err:
+        print('\n', err, '\nPlease check the url and try again\n')   #Printing Error Message
+        quit()  # If error occurs then application will be terminated
 
-#Extracting the data from downloaded file
-def extractincidents(incident_data):
-    
-    #Creating a temporary file to store the data
+# Extracting the data from downloaded file
+
+
+def extractIncidents(incident_data):
+
+    # Creating a temporary file to store the data
     fp = tempfile.TemporaryFile()
 
     # Write the pdf data to a temp file
     fp.write(incident_data.read())
 
-    #setting the cursor of the file to start
+    # setting the cursor of the file to start
     fp.seek(0)
 
-    #Reading the PDF
+    # Reading the PDF
     pdfReader = PyPDF2.pdf.PdfFileReader(fp)
-    pageNumbers = pdfReader.getNumPages()   #Getting the total page numbers in PDF
+    pageNumbers = pdfReader.getNumPages()  # Getting the total page numbers in PDF
 
-    pdfData = pdfReader.getPage(0).extractText() #Extracting the text from page
+    # Extracting the text from page
+    pdfData = pdfReader.getPage(0).extractText()
 
-    #Iterating through remaining pages and appending data
-    for i in range (1, pageNumbers):
+    # Iterating through remaining pages and appending data
+    for i in range(1, pageNumbers):
         pdfData += pdfReader.getPage(i).extractText()
-    
-    #Cleaning the data extracted from pdf
 
-    pdfData = pdfData.replace(' \n', ' ')  #Handling columns with multi-line data
+    # Cleaning the data extracted from pdf
 
-    pdfData = re.split( r'\s+(?=\d?\d?\/\d?\d?\/\d{4} \d?\d?:\d?\d?)' , pdfData) #Spliting the data based on date
+    # Handling columns with multi-line data
+    pdfData = pdfData.replace(' \n', ' ')
 
-    pdfDataList = []  
-    
+    # Spliting the data based on date
+    pdfData = re.split(r'\s+(?=\d?\d?\/\d?\d?\/\d{4} \d?\d?:\d?\d?)', pdfData)
+
+    pdfDataList = []
+
     for i in range(1, len(pdfData)-1):
         l = pdfData[i].split('\n')
-        
-        #Checking and removing unwanted cells ('Title of PDF file')
+
+        # Checking and removing unwanted cells ('Title of PDF file')
         while len(l) > 5:
             l.pop()
-        
+
         pdfDataList.append(l)
-    
+
     return pdfDataList
 
-#Connecting to a Dababase and creating a table
-def createdb():
-    
-    dbName = 'normanpd.db' #Name of the database where the data should be inserted
-    
-    #All the files will be saved in normanpd.db
+# Connecting to a Dababase and creating a table
+
+
+def createDB():
+
+    dbName = 'normanpd.db'  # Name of the database where the data should be inserted
+
+    # All the files will be saved in normanpd.db
     conn = sqlite3.connect(dbName)
 
-    #Creating a cursor object to execute SQL commands
+    # Creating a cursor object to execute SQL commands
     cur = conn.cursor()
 
-    #Dropping the table if it exists
+    # Dropping the table if it exists
     cur.execute('''DROP TABLE IF EXISTS incidents''')
 
-    #Creating table
+    # Creating table
     cur.execute('''CREATE TABLE IF NOT EXISTS incidents 
                       (incident_time TEXT, incident_number TEXT, incident_location TEXT, nature TEXT, incident_ori TEXT)''')
-    
-    conn.commit() #To save changes in db
 
-    conn.close() #Closing the connection to db
+    conn.commit()  # To save changes in db
+
+    conn.close()  # Closing the connection to db
 
     return dbName
 
-#Inserting data in the Database
-def populatedb(dbName, incidents):
+# Inserting data in the Database
 
-    #All the files will be saved in normanpd.db
+
+def populateDB(dbName, incidents):
+
+    # All the files will be saved in normanpd.db
     conn = sqlite3.connect(dbName)
 
-    #Creating a cursor object to execute SQL commands
+    # Creating a cursor object to execute SQL commands
     cur = conn.cursor()
 
-    #Inserting the records into database
+    # Inserting the records into database
     cur.executemany('''INSERT INTO incidents VALUES(?,?,?,?,?)''', incidents)
 
-    conn.commit() #To save changes in db
+    conn.commit()  # To save changes in db
 
-    conn.close() #Closing the connection to db
+    conn.close()  # Closing the connection to db
 
-#Fetching results from Database
+# Fetching results from Database
+
+
 def status(dbName):
 
-    #All the files will be saved in normanpd.db
+    # All the files will be saved in normanpd.db
     conn = sqlite3.connect(dbName)
 
-    #Creating a cursor object to execute SQL commands
+    # Creating a cursor object to execute SQL commands
     cur = conn.cursor()
 
-    #Selecting and Concatenating the results from DB
+    # Selecting and Concatenating the results from DB
     cur.execute('''SELECT nature || ' | ' || count(*) from incidents 
                           GROUP BY nature 
                           ORDER BY nature''')
 
-    #Printing all the records fetched from DB as per criteria
+    # Printing all the records fetched from DB as per criteria
     for i in cur.fetchall():
-      print(i[0])
+        print(i[0])
 
-    conn.close() #Closing the connection to db
+    conn.close()  # Closing the connection to db
