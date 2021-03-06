@@ -9,13 +9,13 @@ def main(url):
     incident_data = project0.fetchIncidents(url)
 
     # Extract data
-    incidents = project0.extractIncidents(incident_data)
+    incidentsList = project0.extractIncidents(incident_data)
 
     # Create new database and create table
     dbName = project0.createDB()
 
     # Insert data into incidents table
-    project0.populateDB(dbName, incidents)
+    project0.populateDB(dbName, incidentsList)
 
     # Print incident counts grouped by nature of incident
     project0.status(dbName)
