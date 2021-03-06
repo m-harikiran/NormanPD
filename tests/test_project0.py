@@ -19,3 +19,9 @@ def testExtractIncidents():
     for items in incidentsList:
         assert len(items) == 5          #Checking the length of each incident
     
+
+def testCreateDB():
+
+    dbName = project0.createDB()
+
+    assert dbName == 'normanpd.db'   #Checking if created Database name
