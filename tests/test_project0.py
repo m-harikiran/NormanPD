@@ -1,5 +1,6 @@
 from project0 import project0
 import sqlite3
+import os
 
 # Incidents URL for teesting
 pdfURL = 'https://www.normanok.gov/sites/default/files/documents/2021-03/2021-03-01_daily_incident_summary.pdf'
@@ -31,8 +32,19 @@ def testExtractIncidents():
 
 def testCreateDB():
 
-    dbName = project0.createDB()
-    assert dbName == 'normanpd.db'  # Checking if created Database name
+    project0.createDB()  # Calling method to create db
+
+    # Checking if the Database File is created or not.
+    assert os.path.isfile('normanpd.db')
+
+    conn = sqlite3.connect('normanpd.db')  # Connecting to database
+
+    cur = conn.cursor()  # Connection cursor to execute statements
+
+    cur.execute(
+        '''select * From incidents''')  # Executes query if table exists else throws error
+
+    assert cur.fetchall() == []  # Checks if the newly created table is empty or not
 
 
 def testPopulateBD():
@@ -56,4 +68,5 @@ def testPopulateBD():
 
     cur.execute('''select * from incidents''')
 
-    assert len(cur.fetchall()) > 1     #Checking if the data is inserted into database or not
+    # Checking if the data is inserted into database or not
+    assert len(cur.fetchall()) > 1
