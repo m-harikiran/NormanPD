@@ -17,7 +17,8 @@ def fetchIncidents(url):
             urllib.request.Request(url, headers=headers))
         return data
     except urllib.error.HTTPError as err:
-        print('\n', err, '\nPlease check the url and try again\n')   #Printing Error Message
+        # Printing Error Message
+        print('\n', err, '\nPlease check the url and try again\n')
         quit()  # If error occurs then application will be terminated
 
 # Extracting the data from downloaded file
