@@ -3,6 +3,7 @@ import tempfile
 import PyPDF2
 import sqlite3
 import re
+from prettytable import from_db_cursor
 
 # Downloading Data
 
@@ -27,23 +28,24 @@ def fetchIncidents(url):
 def extractIncidents(incident_data):
 
     # Creating a temporary file to store the data
-    fp = tempfile.TemporaryFile()
+    tf = tempfile.TemporaryFile()
 
     # Write the pdf data to a temp file
-    fp.write(incident_data.read())
+    tf.write(incident_data.read())
 
     # setting the cursor of the file to start
-    fp.seek(0)
+    tf.seek(0)
 
     # Reading the PDF
-    pdfReader = PyPDF2.pdf.PdfFileReader(fp)
-    pageNumbers = pdfReader.getNumPages()  # Getting the total page numbers in PDF
+    pdfReader = PyPDF2.pdf.PdfFileReader(tf)
+    # Getting the total page numbers in PDF
+    pdfPageNumbers = pdfReader.getNumPages()
 
     # Extracting the text from page
     pdfData = pdfReader.getPage(0).extractText()
 
     # Iterating through remaining pages and appending data
-    for i in range(1, pageNumbers):
+    for i in range(1, pdfPageNumbers):
         pdfData += pdfReader.getPage(i).extractText()
 
     # Cleaning the data extracted from pdf
@@ -63,7 +65,9 @@ def extractIncidents(incident_data):
         while len(l) > 5:
             l.pop()
 
-        pdfDataList.append(l)
+        # Appending to list only if the length of list is equal to 5 i.e. No. of attributes in pdf
+        if len(l) == 5:
+            pdfDataList.append(l)
 
     return pdfDataList
 
@@ -123,12 +127,33 @@ def status(dbName):
     cur = conn.cursor()
 
     # Selecting and Concatenating the results from DB
-    cur.execute('''SELECT nature || ' | ' || count(*) from incidents 
+    cur.execute('''SELECT nature as'Incidents_Nature', count(*) as 'Incidents_Count' from incidents 
                           GROUP BY nature 
                           ORDER BY nature''')
 
     # Printing all the records fetched from DB as per criteria
-    for i in cur.fetchall():
-        print(i[0])
+    # print('''\n*************************************
+    #          \nIncidents_Nature  |  Incidents_Count
+    #          \n*************************************''')
+    # for i in cur.fetchall():
+    #     print('*',i[0], '|', i[1])
 
+    # Printing all the records fetched from DB as per criteria
+    # print('\n'+ tabulate(cur.fetchall(), headers=[
+    #       'Incidents_Nature', 'Incidents_Count'], tablefmt='orgtbl') + '\n')
+    
+    #Fetching the results from databse and storing it into pretty table object
+    incidentsTable = from_db_cursor(cur)
+
+    #Aligning the Incidents_Nature Column to Left
+    incidentsTable.align['Incidents_Nature'] = 'l'
+
+    #Aligning the Incidents_Count Column to Center
+    incidentsTable.align['Incidents_Count'] = 'c'
+
+    #Printing the results obtained from DB in tabular format where each attribute is seperated by |
+    print('\n', incidentsTable , '\n')
+
+    
+    # print('*************************************')
     conn.close()  # Closing the connection to db
