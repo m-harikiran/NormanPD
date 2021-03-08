@@ -35,7 +35,7 @@ In this project I have downloaded the incidents data from Norman Police Departme
 **2. project0.py**
 In order to test the package we also have **test_project0.py**.
 
-### main.py
+### 1. main.py
 
 This file is invoked to process the data and output the results. This files takes the input parameters **-- incidents** as **URL** containing the list of incidents for a particular day.
 
@@ -47,15 +47,15 @@ The main function has methods imported from **project0.py** which are used to do
 - Method **`project0.populateDB()`** is used to insert the parsed data into the database
 - Method **`project0.status()`** is used to fetch the summary of incidents from the database tables
 
-### project0.py
+### 2. project0.py
 
 This package is used by **main.py** to fetch, extract data, and populate and fetch results from the database.
 
-#### fetchIncidents(url)
+#### i. fetchIncidents(url)
 
 This method takes input parameters as URL and urllib package is used to read the data from the given URL. This function returns the data that we have fetched from the URL. If there is an error in accessing the data from the URL then the function raises an error and exits the program.
 
-#### extractIncidents(incident_data)
+#### ii. extractIncidents(incident_data)
 
 This method takes the input parameters incident_data that we have fetched from the URL and is used to parse the data and finally store incidents in list format.
 
@@ -99,7 +99,7 @@ for i in range(1, len(pdfData)-1):
 		pdfDataList.append(l)
 ```
 
-#### createDB()
+#### iii. createDB()
 
 This methods takes no input parameters and this is used to create a database **normanpd.db** and create a table called **INCIDENTS** in it. Once the database and table is created this methods returns **dbName**.
 
@@ -110,7 +110,7 @@ cur.execute('''CREATE TABLE IF NOT EXISTS incidents
                       (incident_time TEXT, incident_number TEXT, incident_location TEXT, nature TEXT, incident_ori TEXT)''')
 ```
 
-#### populateDB(dbName, incidents)
+#### iv. populateDB(dbName, incidents)
 
 This methods takes database name, incidents list (returned by extractIncidents()) as input parameters and inserts the data into the database table incidents.
 
@@ -120,7 +120,7 @@ The below is the Snippet of code used to insert the data into the database.
 cur.executemany('''INSERT INTO incidents VALUES(?,?,?,?,?)''', incidents)
 ```
 
-#### status(dbName)
+#### v. status(dbName)
 
 This method takes database name as input parameter and fetches the summary of the incidents which are stored in the database table Incidents.
 
@@ -138,13 +138,13 @@ Once the data is fetched from the database, the results are printed to the conso
 incidentsTable = from_db_cursor(cur)			# Fetching the results from databse and storing it into pretty table object
 incidentsTable.align['Incidents_Nature'] = 'l'	 # Aligning the Incidents_Nature Column to Left
 incidentsTable.align['Incidents_Count'] = 'c'	 # Aligning the Incidents_Count Column to Center
-print('\n', incidentsTable, '\n') 		# Printing the results obtained from DB in tabular format where each attribute is seperated by |
+print('\n', incidentsTable, '\n') 					    # Printing the results obtained from DB in tabular format where each attribute is seperated by |
 ```
 
-### test_project0.py
+### 3. test_project0.py
 
 The package **test_project0.py** has test cases defined as methods, that can be used for unit testing of methods defined in the package **project0.py**. In order to test each method in **project0.py**, first we need to import **project0.py**.
 
-#### testFetchIncidents(url)
+#### i. testFetchIncidents(url)
 
 This method is used to test method **fetchIncidents(url)** in **project0.py**.
