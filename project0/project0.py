@@ -127,7 +127,7 @@ def status(dbName):
     # Creating a cursor object to execute SQL commands
     cur = conn.cursor()
 
-    # Selecting and Concatenating the results from DB
+    # Selecting the results from DB
     cur.execute('''SELECT nature as'Incidents_Nature', count(*) as 'Incidents_Count' from incidents 
                           GROUP BY nature 
                           ORDER BY nature''')
