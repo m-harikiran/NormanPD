@@ -1,6 +1,6 @@
-# CS 5293, Spring 2021 Project 0
+# Norman Police Department Incidents Summary
 
-##### Author: Harikiran Madishetti
+#### Author: Harikiran Madishetti
 
 ---
 
