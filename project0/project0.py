@@ -58,6 +58,7 @@ def extractIncidents(incident_data):
 
     pdfDataList = []
 
+    #Range starting from 1 as first element in list is names of columns/attributes
     for i in range(1, len(pdfData)-1):
         l = pdfData[i].split('\n')
 
@@ -69,6 +70,7 @@ def extractIncidents(incident_data):
         if len(l) == 5:
             pdfDataList.append(l)
 
+    print(len(pdfDataList))
     return pdfDataList
 
 # Connecting to a Dababase and creating a table
@@ -141,19 +143,18 @@ def status(dbName):
     # Printing all the records fetched from DB as per criteria
     # print('\n'+ tabulate(cur.fetchall(), headers=[
     #       'Incidents_Nature', 'Incidents_Count'], tablefmt='orgtbl') + '\n')
-    
-    #Fetching the results from databse and storing it into pretty table object
+
+    # Fetching the results from databse and storing it into pretty table object
     incidentsTable = from_db_cursor(cur)
 
-    #Aligning the Incidents_Nature Column to Left
+    # Aligning the Incidents_Nature Column to Left
     incidentsTable.align['Incidents_Nature'] = 'l'
 
-    #Aligning the Incidents_Count Column to Center
+    # Aligning the Incidents_Count Column to Center
     incidentsTable.align['Incidents_Count'] = 'c'
 
-    #Printing the results obtained from DB in tabular format where each attribute is seperated by |
-    print('\n', incidentsTable , '\n')
+    # Printing the results obtained from DB in tabular format where each attribute is seperated by |
+    print('\n', incidentsTable, '\n')
 
-    
     # print('*************************************')
     conn.close()  # Closing the connection to db
