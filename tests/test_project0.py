@@ -68,10 +68,10 @@ def testPopulateBD():
     # Creating a cursor object to execute SQL commands
     cur = conn.cursor()
 
-    cur.execute('''select * from incidents''')
+    cur.execute('''select count(*) from incidents''')
 
-    # Checking if the data is inserted into database or not
-    assert len(cur.fetchall()) > 1
+    # Checking if the all the data is inserted into database or not
+    assert len(incidentsList) == cur.fetchall()[0][0]
 
 # Method to extract PDF data
 
@@ -79,8 +79,6 @@ def testPopulateBD():
 def pdfData():
     pdfReader = PyPDF2.pdf.PdfFileReader(
         '2021-03-01_daily_incident_summary.pdf')
-    # Getting the total page numbers in PDF
-    pdfPageNumbers = pdfReader.getNumPages()
 
     # Extracting the text from page
     pdfData = pdfReader.getPage(0).extractText()

@@ -58,7 +58,7 @@ def extractIncidents(incident_data):
 
     pdfDataList = []
 
-    #Range starting from 1 as first element in list is names of columns/attributes
+    # Range starting from 1 as first element in list is names of columns/attributes
     for i in range(1, len(pdfData)-1):
         l = pdfData[i].split('\n')
 
@@ -70,7 +70,6 @@ def extractIncidents(incident_data):
         if len(l) == 5:
             pdfDataList.append(l)
 
-    print(len(pdfDataList))
     return pdfDataList
 
 # Connecting to a Dababase and creating a table
