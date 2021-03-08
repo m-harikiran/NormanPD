@@ -3,3 +3,4 @@
 3. https://regexr.com | Used to test pattern matching for regular expressions
 4. https://stackoverflow.com/questions/51395590/regex-pattern-to-match-datetime-in-python | Helped me to understand and split data using regular expressions for datetime
 5. https://docs.python.org/3/howto/argparse.html | Helped me to understand about parsing arguments using command line
+6. https://pypi.org/project/prettytable/  | Helped me to understand and format results from database into a table
