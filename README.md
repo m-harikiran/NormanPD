@@ -1,6 +1,8 @@
 # CS 5293, Spring 2021 Project 0
 
-# Author: Harikiran Madishetti
+##### Author: Harikiran Madishetti
+
+---
 
 ## About
 
