@@ -17,11 +17,12 @@ The below is the list of packages used in this project.
 - PyPDF2
 - sqlite3
 - re
+- os
 - prettytable
 - argparse
 - validators
 
-Libraries such as argparse, tempfile, sqlite3, re, and urllib are standard libraries in python3. To install other libraries please use Command `pipenv install -r requirements.txt`
+Libraries such as argparse, tempfile, sqlite3, re, os, and urllib are standard libraries in python3. To install other libraries please use Command `pipenv install -r requirements.txt`
 
 ## Assumptions
 
@@ -48,7 +49,7 @@ The main function has methods imported from **project0.py** which are used to do
 
 ### project0.py
 
-This the package used by **main.py** to fetch, extract data, and populate and fetch results from the database.
+This package is used by **main.py** to fetch, extract data, and populate and fetch results from the database.
 
 #### fetchIncidents(url)
 
@@ -137,5 +138,13 @@ Once the data is fetched from the database, the results are printed to the conso
 incidentsTable = from_db_cursor(cur)			# Fetching the results from databse and storing it into pretty table object
 incidentsTable.align['Incidents_Nature'] = 'l'	 # Aligning the Incidents_Nature Column to Left
 incidentsTable.align['Incidents_Count'] = 'c'	 # Aligning the Incidents_Count Column to Center
-print('\n', incidentsTable, '\n') 					    # Printing the results obtained from DB in tabular format where each attribute is seperated by |
+print('\n', incidentsTable, '\n') 		# Printing the results obtained from DB in tabular format where each attribute is seperated by |
 ```
+
+### test_project0.py
+
+The package **test_project0.py** has test cases defined as methods, that can be used for unit testing of methods defined in the package **project0.py**. In order to test each method in **project0.py**, first we need to import **project0.py**.
+
+#### testFetchIncidents(url)
+
+This method is used to test method **fetchIncidents(url)** in **project0.py**.
