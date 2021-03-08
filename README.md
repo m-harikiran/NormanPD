@@ -40,8 +40,102 @@ This file is invoked to process the data and output the results. This files take
 
 The main function has methods imported from **project0.py** which are used to download, store the data in the database and then fetch the summary of inserted data. The below are different methods called by main function:
 
-- Method `project0.fetchIncidents()` is used to fetch the incidents data from url provided
-- Method `project0.extractIncidents()` is used to parse the data obtained from the website and store it in list format to easily insert it into the database
-- Method `project0.createDB()` is used to create a new database
-- Method `project0.populateDB()` is used to insert the parsed data into the database
-- Method `project0.status()` is used to fetch the summary of incidents from the database tables
+- Method **`project0.fetchIncidents()`** is used to fetch the incidents data from url provided
+- Method **`project0.extractIncidents()`** is used to parse the data obtained from the website and store it in list format to easily insert it into the database
+- Method **`project0.createDB()`** is used to create a new database
+- Method **`project0.populateDB()`** is used to insert the parsed data into the database
+- Method **`project0.status()`** is used to fetch the summary of incidents from the database tables
+
+### project0.py
+
+This the package used by **main.py** to fetch, extract data, and populate and fetch results from the database.
+
+#### fetchIncidents(url)
+
+This method takes input parameters as URL and urllib package is used to read the data from the given URL. This function returns the data that we have fetched from the URL. If there is an error in accessing the data from the URL then the function raises an error and exits the program.
+
+#### extractIncidents(incident_data)
+
+This method takes the input parameters incident_data that we have fetched from the URL and is used to parse the data and finally store incidents in list format.
+
+In this method I have used PyPDF2 to read the pdf data fetched from the URL. After reading the data, I have consolidated the data available in all the pages of the PDF to a string(**pdfData**).
+In the **pdfData** each field is separated by **'\n'** .
+
+##### Handling Multi-Line Data
+
+In **pdfData** string multi-line data is separated by ' \n'. So I have replaced it with empty space(' ')
+
+```python
+pdfData = pdfData.replace(' \n', ' ')
+```
+
+##### Extracting Incidents
+
+After handling the multi-line data, to extract each incident from **pdfData** I have considered splitting the data further based on the incident date/time field, as this was the easiest way to identify each incident.
+
+```python
+pdfData = re.split(r'\s+(?=\d?\d?\/\d?\d?\/\d{4} \d?\d?:\d?\d?)', pdfData)
+```
+
+##### Extracting Attributes of Incident
+
+Once the data is split into each incident, we had strings of incidents, in which incidents attributes were separated by **'\n'**. I have then extracted attributes of each incident by splitting it w.r.t **'\n'**.
+
+While extracting the Attributes of Incidents, I have noticed that some incidents have more than 5 attributes. The additional attributes were title, sub-title of the report and it's date of generation.
+
+###### Handling Unwanted Attributes
+
+If the length of the incident list is > 5 then I have removed the last elements from the list. I have removed last element as we have initially split the data into rows with respect to date. And finally, if the length of the incidents list is equal to 5 then I am appending the incidents to final list **pdfDataList** and returning it.
+
+```python
+for i in range(1, len(pdfData)-1):
+	l = pdfData[i].split('\n')
+# Checking and removing unwanted cells ('Title of PDF file')
+	 while len(l) > 5:
+		l.pop()
+# Appending to list only if the length of list is equal to 5 i.e. No. of attributes in pdf
+	if len(l) == 5:
+		pdfDataList.append(l)
+```
+
+#### createDB()
+
+This methods takes no input parameters and this is used to create a database **normanpd.db** and create a table called **INCIDENTS** in it. Once the database and table is created this methods returns **dbName**.
+
+The below is the snippet of code used to create table Incidents.
+
+```python
+cur.execute('''CREATE TABLE IF NOT EXISTS incidents
+                      (incident_time TEXT, incident_number TEXT, incident_location TEXT, nature TEXT, incident_ori TEXT)''')
+```
+
+#### populateDB(dbName, incidents)
+
+This methods takes database name, incidents list (returned by extractIncidents()) as input parameters and inserts the data into the database table incidents.
+
+The below is the Snippet of code used to insert the data into the database.
+
+```python
+cur.executemany('''INSERT INTO incidents VALUES(?,?,?,?,?)''', incidents)
+```
+
+#### status(dbName)
+
+This method takes database name as input parameter and fetches the summary of the incidents which are stored in the database table Incidents.
+
+The below is the snippet of code used to fetch the summary of Incidents.
+
+```python
+cur.execute('''SELECT nature as'Incidents_Nature', count(*) as 'Incidents_Count' from incidents
+                          GROUP BY nature
+                          ORDER BY nature''')
+```
+
+Once the data is fetched from the database, the results are printed to the console in tabular format using **prettytables**.
+
+```python
+incidentsTable = from_db_cursor(cur)			# Fetching the results from databse and storing it into pretty table object
+incidentsTable.align['Incidents_Nature'] = 'l'	 # Aligning the Incidents_Nature Column to Left
+incidentsTable.align['Incidents_Count'] = 'c'	 # Aligning the Incidents_Count Column to Center
+print('\n', incidentsTable, '\n') 					    # Printing the results obtained from DB in tabular format where each attribute is seperated by |
+```
