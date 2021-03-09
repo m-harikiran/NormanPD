@@ -108,7 +108,7 @@ The below is the snippet of code used to create table Incidents.
 ```python
 cur.execute('''CREATE TABLE IF NOT EXISTS incidents
                       (incident_time TEXT, incident_number TEXT, incident_location TEXT,
-					  			nature TEXT, incident_ori TEXT)''')
+					  nature TEXT, incident_ori TEXT)''')
 ```
 
 #### iv. populateDB(dbName, incidents)
@@ -136,10 +136,10 @@ cur.execute('''SELECT nature as'Incidents_Nature', count(*) as 'Incidents_Count'
 Once the data is fetched from the database, the results are printed to the console in tabular format using **prettytables**.
 
 ```python
-incidentsTable = from_db_cursor(cur)		# Fetching the results from databse and storing it into pretty table object
+incidentsTable = from_db_cursor(cur)	# Fetching the results from databse and storing it into pretty table object
 incidentsTable.align['Incidents_Nature'] = 'l'	 # Aligning the Incidents_Nature Column to Left
 incidentsTable.align['Incidents_Count'] = 'c'	 # Aligning the Incidents_Count Column to Center
-print('\n', incidentsTable, '\n') 				# Printing the results obtained from DB in tabular format where each attribute is seperated by |
+print('\n', incidentsTable, '\n') 		# Printing the results obtained from DB in tabular format where each attribute is seperated by |
 ```
 
 ### 3. test_project0.py
