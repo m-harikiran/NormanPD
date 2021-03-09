@@ -214,7 +214,7 @@ The below are the insturctions to be followed to download, install and run the p
    **`pipenv install --three`**
 5. Install the dependencies listed in **requirements.txt** to start using the package
    **`pipenv install -r requirements.txt`**
-6. After installing the dependencies successfully use the below command to run unit tests
+6. After installing the dependencies successfully run unit tests
    **`pipenv run pytest`**
 7. After running the unit tests successfully start using package (relpace URL with the URL of incidents list) using below command to fetch summary of the incidents by its nature
    **`pipenv run python project0/main.py --incidents URL`**
