@@ -166,14 +166,23 @@ for items in incidentsList:
 	assert len(items) == 5		# Checking the length of each incident
 ```
 
-#### ii. testCreateDB()
+#### iii. testCreateDB()
 
 This method is used to test method **createDB()** in **project0.py**. In this method, I am verifying if the method created a database by looking for the database 'normanpd.db' file in the current directory of the project, and incidents table creation is verified by fetching results from the table.
 
 ```python
-assert os.path.isfile('normanpd.db')	# Checking if the Database File is created or not.
-conn = sqlite3.connect('normanpd.db')	# Connecting to database
-cur = conn.cursor()			# Connection cursor to execute statements
+assert os.path.isfile('normanpd.db')		# Checking if the Database File is created or not.
+conn = sqlite3.connect('normanpd.db')		# Connecting to database
+cur = conn.cursor()				# Connection cursor to execute statements
 cur.execute('''select * From incidents''')	# Executes query if table exists else throws error
-assert cur.fetchall() == []		# Checks if the newly created table is empty or not
+assert cur.fetchall() == []			# Checks if the newly created table is empty or not
+```
+
+#### iv. testPopulateBD()
+
+This method is used to test method **populateDB(dbName, incidents)** in **project0.py**. In this method I am verifying weather all the incidents returned by **extractIncidents()** are inserted properly into the database incidents table.
+
+```python
+cur.execute('''select count(*) from incidents''')	#SQL query to select count of inserted records
+assert len(incidentsList) == cur.fetchall()[0][0]
 ```
