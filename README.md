@@ -136,10 +136,10 @@ cur.execute('''SELECT nature as'Incidents_Nature', count(*) as 'Incidents_Count'
 Once the data is fetched from the database, the results are printed to the console in tabular format using **prettytables**.
 
 ```python
-incidentsTable = from_db_cursor(cur)	# Fetching the results from databse and storing it into pretty table object
+incidentsTable = from_db_cursor(cur) # Fetching the results from databse and storing it into pretty table object
 incidentsTable.align['Incidents_Nature'] = 'l'	 # Aligning the Incidents_Nature Column to Left
 incidentsTable.align['Incidents_Count'] = 'c'	 # Aligning the Incidents_Count Column to Center
-print('\n', incidentsTable, '\n') 	# Printing the results obtained from DB in tabular format where each attribute is seperated by |
+print('\n', incidentsTable, '\n') # Printing the results obtained from DB in tabular format where each attribute is seperated by |
 ```
 
 ### 3. test_project0.py
@@ -171,11 +171,11 @@ for items in incidentsList:
 This method is used to test method **createDB()** in **project0.py**. In this method, I am verifying if the method created a database by looking for the database 'normanpd.db' file in the current directory of the project, and incidents table creation is verified by fetching results from the table.
 
 ```python
-assert os.path.isfile('normanpd.db')		# Checking if the Database File is created or not.
-conn = sqlite3.connect('normanpd.db')		# Connecting to database
-cur = conn.cursor()				# Connection cursor to execute statements
+assert os.path.isfile('normanpd.db')	# Checking if the Database File is created or not.
+conn = sqlite3.connect('normanpd.db')	# Connecting to database
+cur = conn.cursor()			# Connection cursor to execute statements
 cur.execute('''select * From incidents''')	# Executes query if table exists else throws error
-assert cur.fetchall() == []			# Checks if the newly created table is empty or not
+assert cur.fetchall() == []		# Checks if the newly created table is empty or not
 ```
 
 #### iv. testPopulateBD()
@@ -184,5 +184,18 @@ This method is used to test method **populateDB(dbName, incidents)** in **projec
 
 ```python
 cur.execute('''select count(*) from incidents''')	#SQL query to select count of inserted records
+assert len(incidentsList) == cur.fetchall()[0][0]
+```
+
+#### iv. testStatus()
+
+This method is used to test method **status()** in **project0.py**. In this method I am verifying weather all the incidents returned by **extractIncidents()** are present in Incidents summary table.
+
+```python
+# Selecting and Concatenating the results from DB
+cur.execute('''SELECT sum(Incidents_count)
+					from (SELECT nature as'Incidents_Nature', count(*) as 'Incidents_Count'
+										from incidents group by nature) a''')
+# Verifying if the count of incidents reported with final results from status()
 assert len(incidentsList) == cur.fetchall()[0][0]
 ```
