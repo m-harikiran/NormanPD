@@ -144,7 +144,7 @@ print('\n', incidentsTable, '\n') # Printing the results obtained from DB in tab
 
 ### 3. test_project0.py
 
-The package **test_project0.py** has test cases defined as methods, that can be used for unit testing of methods defined in the package **project0.py**. In order to test each method in **project0.py**, first we need to import **project0.py**.
+The package **test_project0.py** has test cases defined as methods, that can be used for unit testing of methods defined in the package **project0.py**. In order to test each method in **project0.py**, first we need to import **project0.py**. I am using **assert** in python to verify if the test condition is true or not. If the condition returns FALSE then assert statement will fail, which inturns fails the test case.
 
 #### i. testFetchIncidents()
 
@@ -199,3 +199,9 @@ cur.execute('''SELECT sum(Incidents_count)
 # Verifying if the count of incidents reported with final results from status()
 assert len(incidentsList) == cur.fetchall()[0][0]
 ```
+
+## Directions to Install and Use Pagkage
+
+The below are the insturctions to be followed to download, install and run the package/project.
+
+1. Create a directory and then cd into the directory using `mkdir Text_Project0 && cd Test_Project`
