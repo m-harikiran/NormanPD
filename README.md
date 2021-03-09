@@ -145,6 +145,22 @@ print('\n', incidentsTable, '\n') 					    # Printing the results obtained from 
 
 The package **test_project0.py** has test cases defined as methods, that can be used for unit testing of methods defined in the package **project0.py**. In order to test each method in **project0.py**, first we need to import **project0.py**.
 
-#### i. testFetchIncidents(url)
+#### i. testFetchIncidents()
 
-This method is used to test method **fetchIncidents(url)** in **project0.py**.
+This method is used to test method **fetchIncidents(url)** in **project0.py**. In this, I am verifying if the object returned by **project0.fetchIncidents(url)** when it is called is None or not.
+
+```python
+data = project0.fetchIncidents(pdfURL)  # Fetching the data from url
+assert data is not None  # Asserting if data is object is enpty or not
+```
+
+#### ii. testExtractIncidents()
+
+This method is used to test method **extractIncidents(incident_data)** in **project0.py**. In this method I am verifying weather the returned datatype of the method extractincidents() is list or not, verifying weather the returned list is not empty and finally checking if the there are exactly 5 attributes in each incident.
+
+```python
+assert type(incidentsList) is list	# Checking if return type is list or not
+assert len(incidentsList) != 0 		# Checking if list is empty or not
+for items in incidentsList:
+	assert len(items) == 5			# Checking the length of each incident
+```
