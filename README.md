@@ -205,16 +205,43 @@ assert len(incidentsList) == cur.fetchall()[0][0]
 The below are the insturctions to be followed to download, install and run the package/project.
 
 1. Create a directory and then cd into the directory
-   **`mkdir Text_Project0 && cd Test_Project`**
+
+```shell
+mkdir Text_Project0 && cd Test_Project
+```
+
 2. Download the project files from GitHub
-   **`git clone https://github.com/Harikiran-Madishetti/cs5293sp21-project0.git`**
+
+```shell
+git clone https://github.com/Harikiran-Madishetti/cs5293sp21-project0.git
+```
+
 3. Install python package pipenv to create a virtual enviromnent
-   **`pip install pipenv`**
+
+```shell
+pip install pipenv
+```
+
 4. After successfully installing pipenv create a python3 virtual environment
-   **`pipenv install --three`**
+
+```shell
+pipenv install --three
+```
+
 5. Install the dependencies listed in **requirements.txt** to start using the package
-   **`pipenv install -r requirements.txt`**
+
+```shell
+pipenv install -r requirements.txt
+```
+
 6. After installing the dependencies successfully use the below command to run unit tests
-   `pipenv run pytest`
+
+```shell
+pipenv run pytest
+```
+
 7. After running the unit tests successfully start using package (relpace URL with the URL of incidents list) using below command to fetch summary of the incidents by its nature
-   **`pipenv run python project0/main.py --incidents URL`**
+
+```shell
+pipenv run python project0/main.py --incidents URL
+```
