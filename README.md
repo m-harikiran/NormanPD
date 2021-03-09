@@ -208,13 +208,15 @@ The below are the insturctions to be followed to download, install and run the p
    **`mkdir Text_Project0 && cd Test_Project`**
 2. Download the project files from GitHub
    **`git clone https://github.com/Harikiran-Madishetti/cs5293sp21-project0.git`**
-3. Install python package pipenv to create a virtual enviromnent
+3. Cd into project directory **cs5293sp21-project0**
+   **`cd cs5293sp21-project0`**
+4. Install python package pipenv to create a virtual enviromnent
    **`pip install pipenv`**
-4. After successfully installing pipenv create a python3 virtual environment
+5. After successfully installing pipenv create a python3 virtual environment
    **`pipenv install --three`**
-5. Install the dependencies listed in **requirements.txt** to start using the package
+6. Install the dependencies listed in **requirements.txt** to start using the package
    **`pipenv install -r requirements.txt`**
-6. After installing the dependencies successfully run unit tests
+7. After installing the dependencies successfully run unit tests
    **`pipenv run pytest`**
-7. After running the unit tests successfully start using package (relpace URL with the URL of incidents list) using below command to fetch summary of the incidents by its nature
+8. After running the unit tests successfully start using package (relpace URL with the URL of incidents list) using below command to fetch summary of the incidents by its nature
    **`pipenv run python project0/main.py --incidents URL`**
