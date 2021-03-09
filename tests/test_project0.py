@@ -18,9 +18,9 @@ def testFetchIncidents():
 
 
 def testExtractIncidents():
-    data = project0.fetchIncidents(pdfURL)
+    incidents_data = project0.fetchIncidents(pdfURL)
 
-    incidentsList = project0.extractIncidents(data)
+    incidentsList = project0.extractIncidents(incidents_data)
 
     # Checking if return type is list or not
     assert type(incidentsList) is list
