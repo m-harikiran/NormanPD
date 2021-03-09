@@ -174,7 +174,7 @@ This method is used to test method **createDB()** in **project0.py**. In this me
 assert os.path.isfile('normanpd.db')	# Checking if the Database File is created or not.
 conn = sqlite3.connect('normanpd.db')	# Connecting to database
 cur = conn.cursor()			# Connection cursor to execute statements
-cur.execute('''select * From incidents''')	# Executes query if table exists else throws error
+cur.execute('''select * From incidents''') # Executes query if table exists else throws error
 assert cur.fetchall() == []		# Checks if the newly created table is empty or not
 ```
 
@@ -183,7 +183,7 @@ assert cur.fetchall() == []		# Checks if the newly created table is empty or not
 This method is used to test method **populateDB(dbName, incidents)** in **project0.py**. In this method I am verifying weather all the incidents returned by **extractIncidents()** are inserted properly into the database incidents table.
 
 ```python
-cur.execute('''select count(*) from incidents''')	#SQL query to select count of inserted records
+cur.execute('''select count(*) from incidents''') #SQL query to select count of inserted records
 assert len(incidentsList) == cur.fetchall()[0][0]
 ```
 
@@ -194,8 +194,8 @@ This method is used to test method **status()** in **project0.py**. In this meth
 ```python
 # Selecting and Concatenating the results from DB
 cur.execute('''SELECT sum(Incidents_count)
-					from (SELECT nature as'Incidents_Nature', count(*) as 'Incidents_Count'
-										from incidents group by nature) a''')
+			from (SELECT nature as'Incidents_Nature', count(*) as 'Incidents_Count'
+						from incidents group by nature) a''')
 # Verifying if the count of incidents reported with final results from status()
 assert len(incidentsList) == cur.fetchall()[0][0]
 ```
