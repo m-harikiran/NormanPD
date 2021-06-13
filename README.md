@@ -209,7 +209,7 @@ The below are the insturctions to be followed to download, install and run the p
 2. Download the project files from GitHub
    **`git clone https://github.com/m-harikiran/NormanPD.git`**
 3. Cd into project directory **cs5293sp21-project0**
-   **`cd cs5293sp21-project0`**
+   **`cd NormanPD`**
 4. Install python package pipenv to create a virtual enviromnent
    **`pip install pipenv`**
 5. After successfully installing pipenv create a python3 virtual environment
