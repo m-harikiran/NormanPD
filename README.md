@@ -1,6 +1,6 @@
 # Norman Police Department Incidents Summary
 
-#### Author: Harikiran Madishetti
+#### Author: Harikiran M
 
 ---
 
